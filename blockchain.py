@@ -7,7 +7,11 @@ import random
 difficulty = 5
 
 class Block():
-    def __init__(self, data, previous_block):
+    def __init__(self, data, previous_block = None):
+        """Creates the data block. It does not get mined by default. The
+        default value of None for the previous_block parameter is used
+        to create the genesis block of the chain.
+        """
         self.data = data
         self.previous_block = previous_block
         self.proof_of_work = None
@@ -17,9 +21,16 @@ class Block():
         return self.hash is not None
 
     def _generate_random_string(self):
+        """Generates a random string of 10 uppercase characters that will be
+        added at the end of the block as proof of work.
+        """
         return ''.join(random.choice(string.ascii_uppercase) for _ in range(10)).encode('utf-8')
 
     def hash_block(self, proof_of_work = None):
+        """Produce the hash value of the current block using the proof_of_work
+        parameter. If this parameter is None, the proof_of_work value
+        stored in the class is used.
+        """
         if not proof_of_work:
             proof_of_work = self.proof_of_work
 
@@ -31,6 +42,11 @@ class Block():
         return sha512.hexdigest()
 
     def mine(self):
+        """This method mine the current block i.e. finds a 10 characters
+        uppercase string to add at the end of the block in order to
+        get the correct number of 0 at the end of the hash value of
+        the block.
+        """
         def is_valid(guess):
             result = self.hash_block(guess)
 
@@ -43,6 +59,10 @@ class Block():
         self.hash = self.hash_block().encode('utf-8')
 
 def print_blockchain(head_block):
+    """This function print the content of the blockchain. The data has to
+    be reversed in order to get the values in the input order because
+    the access point to the blockchain is the head.
+    """
     data = []
 
     while head_block is not None:
@@ -57,7 +77,7 @@ def print_block_info(block):
     print('block hash', block.hash)
 
 if __name__ == '__main__':
-    genesis_block = Block('Hey'.encode('utf-8'), None)
+    genesis_block = Block('Hey'.encode('utf-8'))
     genesis_block.mine()
     print_block_info(genesis_block)
 
