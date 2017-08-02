@@ -1,5 +1,8 @@
 # simple_blockchain
-A very simple implementation of a blockchain
+
+A very simple implementation of a blockchain.
+
+An example of run of the program:
 
 ```
 $ ./blockchain.py
