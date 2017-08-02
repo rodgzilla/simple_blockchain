@@ -1,4 +1,4 @@
-# simple_blockchain
+# Simple blockchain PoC
 
 A very simple implementation of a blockchain.
 
